@@ -45,7 +45,7 @@ public:
 private:
     double generate_sign()
     {
-        double sign = double_distribution_(generator_);
+        double sign = sign_distribution_(generator_);
         if (sign < 0)
             sign = -1;
         else if (sign > 0)
@@ -140,18 +140,11 @@ int main()
 {
     try
     {
-        int one_mb = 1048576;
         int one_gb = 1024 * 1024 * 1024;
-
-        auto time_start = std::chrono::high_resolution_clock::now();
 
         int number_of_threads = 5;
         random_double_generator gen(number_of_threads);
         gen.generate_random_doubles_file(one_gb, g_unsorted_file_name);
-
-        auto time_end = std::chrono::high_resolution_clock::now();
-
-        std::cout << time_end - time_start << std::endl;
     }
     catch (const std::exception& ex)
     {

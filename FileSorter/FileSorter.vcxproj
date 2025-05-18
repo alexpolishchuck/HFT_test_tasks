@@ -74,7 +74,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="FileSorter.cpp" />
+    <ClCompile Include="consts.cpp" />
+    <ClCompile Include="double_file_reader.cpp" />
+    <ClCompile Include="files_merger.cpp" />
+    <ClCompile Include="file_sorter.cpp" />
+    <ClCompile Include="utils.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="consts.h" />
+    <ClInclude Include="double_file_reader.h" />
+    <ClInclude Include="files_merger.h" />
+    <ClInclude Include="utils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
