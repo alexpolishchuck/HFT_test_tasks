@@ -28,5 +28,13 @@
 
 # Executables
 *.exe
+*.exe.*
 *.out
 *.app
+
+# Directories
+x64/
+.vs/
+
+# User-specific files
+*.user
