@@ -8,7 +8,7 @@ class double_file_reader
 public:
     double_file_reader(
         const std::string& filename,
-        uint64_t chunk_size_bytes);
+        uint64_t max_memory_bytes);
 
     void read(std::vector<double>& output);
 

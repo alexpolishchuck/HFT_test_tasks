@@ -1,7 +1,5 @@
+#include "pch.h"
 #include "utils.h"
-
-#include <filesystem>
-#include <fstream>
 
 void clear_and_create_folder(const char* folder_path)
 {

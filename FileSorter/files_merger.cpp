@@ -1,8 +1,7 @@
+#include "pch.h"
 #include "files_merger.h"
 #include "double_file_reader.h"
 #include "utils.h"
-
-#include <filesystem>
 
 void files_merger::merge_two_files(
     const std::string& file_a,

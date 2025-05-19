@@ -1,5 +1,4 @@
-#include <iostream>
-
+#include "pch.h"
 #include "double_file_reader.h"
 
 bool is_symbol_endl(std::vector<char>& buffer, size_t pos)
@@ -9,8 +8,8 @@ bool is_symbol_endl(std::vector<char>& buffer, size_t pos)
 
 double_file_reader::double_file_reader(
     const std::string& filename,
-    uint64_t chunk_size_bytes)
-    : chunk_size_bytes_(chunk_size_bytes / 2)
+    uint64_t max_memory_bytes)
+    : chunk_size_bytes_(max_memory_bytes / 2)
     , buffer_(chunk_size_bytes_)
 {
     file_.open(filename, std::ios::binary);
@@ -69,7 +68,7 @@ bool double_file_reader::check_buffer_stream_empty() const
 void double_file_reader::roll_back_file_cursor_to_last_endl()
 {
     std::streamsize bytes_read = file_.gcount();
-    int cur_pos = bytes_read - 1;
+    std::streamsize cur_pos = bytes_read - 1;
     while (cur_pos > 0)
     {
         if (buffer_[cur_pos] == '\n')

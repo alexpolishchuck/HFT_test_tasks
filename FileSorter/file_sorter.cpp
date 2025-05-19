@@ -1,12 +1,4 @@
-#include <sstream>
-#include <iostream>
-#include <vector>
-#include <thread>
-#include <queue>
-#include <fstream>
-#include <filesystem>
-#include <format>
-
+#include "pch.h"
 #include "double_file_reader.h"
 #include "consts.h"
 #include "utils.h"
@@ -23,6 +15,7 @@ public:
         clear_and_create_folder(g_temp_folder);
         split_file_by_sorted_chunks();
         merge_all_files();
+        cleanup();
     }
 
 public:
@@ -32,7 +25,7 @@ public:
         if (!input_file.is_open())
             throw std::runtime_error("file_sorter::split_file_by_sorted_chunks. Failed to open input file");
         
-        uint64_t chunk_size = g_max_memory_bytes / 10;
+        uint64_t chunk_size = g_max_memory_bytes / 2;
         std::vector<double> doubles;
         doubles.reserve(chunk_size / sizeof(double));
         double_file_reader file_reader(unsorted_file_name_, chunk_size);
@@ -53,16 +46,18 @@ public:
 
     std::string create_next_file_name()
     {
-        last_file_id++;
+        last_file_id_++;
+        return create_file_name(last_file_id_);
+    }
 
+    std::string create_file_name(int file_id) const
+    {
         std::stringstream file_name_stream;
         file_name_stream << g_temp_folder
             << '/'
-            << last_file_id;
+            << file_id;
 
         std::string file_name = file_name_stream.str();
-        file_names_.emplace_back(file_name);
-
         return file_name;
     }
 
@@ -70,44 +65,49 @@ public:
     {
         files_merger merger;
 
-        while (file_names_.size() > 1)
+        for(int i = 1; i < last_file_id_; i += 2)
         {
-            std::string file_a = file_names_.front();
-            file_names_.pop_front();
-
-            std::string file_b = file_names_.front();
-            file_names_.pop_front();
-
+            std::string file_a = create_file_name(i);
+            std::string file_b = create_file_name(i + 1);
             std::string file_out = create_next_file_name();
 
-            merger.merge_two_files(file_a, file_b, file_out);
+            auto chunk_size = g_max_memory_bytes / 2;
+            merger.merge_two_files(file_a, file_b, file_out, chunk_size);
 
             std::filesystem::remove(file_a);
             std::filesystem::remove(file_b);
         }
     }
 
+    void cleanup()
+    {
+        std::string final_file_path = create_file_name(last_file_id_);
+        if (!std::filesystem::exists(final_file_path))
+            throw std::runtime_error("file_sorter::cleanup. Final sorted file doesn't exist");
+
+        std::filesystem::rename(final_file_path, sorted_file_name_);
+
+        std::filesystem::remove_all(g_temp_folder);
+    }
+
 private:
     std::string unsorted_file_name_;
     std::string sorted_file_name_;
-    std::deque<std::string> file_names_;
-    int last_file_id = 0;
+    int last_file_id_ = 0;
 };
 
 int main(int argc, char* argv[])
 {
     try
     {
-        std::string unsorted_file_name;
-        std::string sorted_file_name;
+        std::string unsorted_file_name = "unsorted_output.txt";
+        std::string sorted_file_name = "sorted_output.txt";
 
-        if (argc < 3)
+        if (argc == 3)
         {
-            unsorted_file_name = "unsorted_output.txt";
-            sorted_file_name = "sorted_output.txt";
+            unsorted_file_name = argv[1];
+            sorted_file_name = argv[2];
         }
-        else if (argc != 3)
-            throw std::runtime_error("Invalid input");
 
         file_sorter sorter;
         sorter.sort_file(unsorted_file_name, sorted_file_name);

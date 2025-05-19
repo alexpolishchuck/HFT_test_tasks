@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="FileGenerator.cpp">
+    <ClCompile Include="file_generator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

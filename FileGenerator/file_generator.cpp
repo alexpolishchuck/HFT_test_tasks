@@ -28,13 +28,13 @@ public:
         wait_for_finish();
     }
 
-    void generate_random_doubles_file(int file_size_bytes, const std::string& filename)
+    void generate_random_doubles_file(size_t file_size_bytes, const std::string& filename)
     {
         wait_for_finish();
 
         total_size_ = 0;
         file_size_bytes_ = file_size_bytes;
-        output_file_.open(g_unsorted_file_name, std::ios::trunc | std::ios::binary);
+        output_file_.open(filename, std::ios::trunc | std::ios::binary);
         if (!output_file_.is_open())
             throw std::runtime_error("async_generate_random_doubles_file. Failed to open file.");
 
@@ -77,7 +77,7 @@ private:
     void work()
     {
         int current_batch_size = 0;
-        int current_batch_string_size = 0;
+        size_t current_batch_string_size = 0;
         int max_batch_size = 0;
 
         {
@@ -128,8 +128,8 @@ private:
     std::vector<std::thread> threads_;
     std::mutex mutex_;
     std::ofstream output_file_;
-    int file_size_bytes_ = 0;
-    int total_size_ = 0;
+    size_t file_size_bytes_ = 0;
+    size_t total_size_ = 0;
     const int max_batch_size_ = 100000;
     std::uniform_real_distribution<double> double_distribution_;
     std::uniform_real_distribution<double> sign_distribution_;
@@ -142,7 +142,7 @@ int main()
     {
         int one_gb = 1024 * 1024 * 1024;
 
-        int number_of_threads = 5;
+        int number_of_threads = std::thread::hardware_concurrency();
         random_double_generator gen(number_of_threads);
         gen.generate_random_doubles_file(one_gb, g_unsorted_file_name);
     }

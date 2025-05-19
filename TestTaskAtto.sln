@@ -9,6 +9,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AnalyticsCalculator", "Anal
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FileGenerator", "FileGenerator\FileGenerator.vcxproj", "{A9954D20-2C5C-4F7E-AC74-59B52141137A}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Utils", "Utils\Utils.vcxproj", "{C3B0AAC4-3CC1-4F5C-A7E8-B4CA0F25413C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -27,6 +29,10 @@ Global
 		{A9954D20-2C5C-4F7E-AC74-59B52141137A}.Debug|x64.Build.0 = Debug|x64
 		{A9954D20-2C5C-4F7E-AC74-59B52141137A}.Release|x64.ActiveCfg = Release|x64
 		{A9954D20-2C5C-4F7E-AC74-59B52141137A}.Release|x64.Build.0 = Release|x64
+		{C3B0AAC4-3CC1-4F5C-A7E8-B4CA0F25413C}.Debug|x64.ActiveCfg = Debug|x64
+		{C3B0AAC4-3CC1-4F5C-A7E8-B4CA0F25413C}.Debug|x64.Build.0 = Debug|x64
+		{C3B0AAC4-3CC1-4F5C-A7E8-B4CA0F25413C}.Release|x64.ActiveCfg = Release|x64
+		{C3B0AAC4-3CC1-4F5C-A7E8-B4CA0F25413C}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
