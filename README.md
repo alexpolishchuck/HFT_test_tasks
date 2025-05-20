@@ -57,20 +57,20 @@ Space: O(1), we only use static buffers.
 
 # How to build
 ## Prerequisites
-**OS:**  Windows.  I assume it may also work on Linux, since solution does not use any Win specific API, however I have not tested it.
-**Tools:**  For building you require Visual Studio 2022, the version I used is 17.13.6. The solution uses C++20 standard.
+**OS:**  Windows.  I assume it may also work on Linux, since solution does not use any Win specific API, however I have not tested it.  
+**Tools:**  For building you require Visual Studio 2022, the version I used is 17.13.6. The solution uses C++20 standard.  
 **Libraries:**  For last task you need to provide headers for boost::multiprecision. The version of the boost library I used is 1.85.0.
 
 ## How to launch
-1) Find launch.bat in the solution directory;
-2) Replace value of BOOST_INCLUDE variable with the path to the boost include directory;
-3) Replace value of VS_ROOT variable with the path to the visual studio directory;
-4) Save batch file, execute it.
-
-Alternatively:   
-1) Launch .sln file manually;
-2) Go to project settings of AnalyticsCalculator;
-3) Go to C/C++ -> General
-4) Modify "Additional Include Directories" field to contain path to boost include directory
+1) Find launch.bat in the solution directory;  
+2) Replace value of BOOST_INCLUDE variable with the path to the boost include directory;  
+3) Replace value of VS_ROOT variable with the path to the visual studio directory;  
+4) Save batch file, execute it.  
+  
+Alternatively:  
+1) Launch .sln file manually;  
+2) Go to project settings of AnalyticsCalculator;  
+3) Go to C/C++ -> General;  
+4) Modify "Additional Include Directories" field to contain path to boost include directory.  
 
 
