@@ -3,26 +3,26 @@
 ## Tasks
 ### File Generator
 **Description:**  
-First task requires generating a large file with single double value per line.
+The first task requires generating a large file with single double value per line.
 
 **Challenge:**  
-Generating one value per time and writing it to file the same moment is ineffective and generating the whole file in memory requries high usage of RAM.
+Generating and writing to file one value at a time is ineffective and generating the whole 1gb file in memory requries high usage of RAM.
 
 **Solution:**  
-First of all, I decided to generate and write values to the file in chunks. Such approach allowed reduce RAM consuming and decreased execution time from 18 to 17 seconds.
-Next, after profiling the application, I found that the most time consuming part of the program was generation of numbers using uniform distribution. 
-In order to resolve this issue, I parallelized nubmer generation between threads. This reduced execution time from 17 to 10 seconds.
+First of all, application generates and writes values to the file in chunks. Such approach allows reducing RAM consuming and decreases execution time from 18 to 17 seconds.
+Next, application performance profiling showed that the most time consuming part of the program was generation of numbers using uniform distribution. 
+Therefore, In order to reduce the execution time even more, application parallelizes doubles generation by distributing work load between threads. This reduces execution time from 17 to 10 seconds.
 
 **Complexity:**  
 Time: O(n / number_of_threads), where n - number of doubles.  
-Space: O(1) - we use static allocated buffers.  
+Space: O(k * m), where k - is the number of threads, m - size of buffer. Application uses static buffers, however each thread requires one.
 
 ### Files merger
 **Description:**  
 This task requires sorting the generated file while not exceeding 100MB of RAM usage.
 
 **Challenge:**  
-Application can't load the whole file and sort it in memory and must finish in less than 30 minutes.
+Application cannot load the whole file and sort it in memory and must finish execution in less than 30 minutes.
 
 **Solution:**  
 The application works in two main steps. Firstly, it splits the initial file into smaller sorted files. Secondly, it merges each two files into a single sorted file, until only one file left. The idea is the same as merging step in merge sort algorithm.
@@ -34,9 +34,9 @@ The application works in two main steps. Firstly, it splits the initial file int
 
 **Complexity:**  
 Time: O(n*log(k)), where n - number of doubles in the initial file, k - number of files after the splitting.  
-First we iterate over all the values to split the file (O(n)), then we merge every two files by iterating over double stored in them (O(n)). We repeat last action until all the files are merged (log(k)).  
+First, program iterates over all the values to split the file (O(n)), then it merges every two files by iterating over double stored in them (O(n)). Program repeats last action until all the files are merged (log(k)).  
   
-Space: O(1), we only use static buffers the size of which is set in advance.
+Space: O(1), application only uses static buffers the size of which is set in advance.
 
 ### Analytics Calculator
 **Description:**  
@@ -44,22 +44,21 @@ Parse the provided sorted file and calculate mean, standard deviation, median, 0
 
 **Challenge**  
 Calculation of mean and standard deviation requires finding sum and product of the values. In some cases, such actions may lead to overflow of the double data type.
-Unfortunatly, C++ doesn't have its own implementation of large numbers, therefore we either should implement it ourselves or use already ready solutions. I decided to opt for the last option in order to save time for implemetation.
-For large numbers I used boost::multiprecision library. 
+Unfortunatly, C++ doesn't have its own implementation of large numbers, therefore, for arithmetic operations on numbers that may overflow double data type, application uses boost::multiprecision library. 
 
 **Solution:**  
-We iterate over the file two times: first to calculate mean and standard deviation, second to calculate percentiles. In order to calcultate mean and standard deviation in parallel we can use [Welford's algorithm]([https://pages.github.com/](https://en.wikipedia.org/wiki/Algorithms_for_calculating_variance#:~:text=to%20a%20degree.-,Welford%27s%20online%20algorithm,-%5Bedit%5D)).
+Application iterates over the file two times: first to calculate mean and standard deviation, second to calculate percentiles. In order to calcultate mean and standard deviation in parallel program uses [Welford's algorithm]([https://pages.github.com/](https://en.wikipedia.org/wiki/Algorithms_for_calculating_variance#:~:text=to%20a%20degree.-,Welford%27s%20online%20algorithm,-%5Bedit%5D)).
 This algorithm allows calculating meand and standard deviation at the same time incrementally.
 
 **Complexity:**  
-Time: O(n), where n - is the number of doubles in file. We only parse file two times.  
-Space: O(1), we only use static buffers.
+Time: O(n), where n - is the number of doubles in file. Program only parses file two times.  
+Space: O(1), program only uses static buffers.
 
 # How to build
 ## Prerequisites
-**OS:**  Windows.  I assume it may also work on Linux, since solution does not use any Win specific API, however I have not tested it.  
-**Tools:**  For building you require Visual Studio 2022, the version I used is 17.13.6. The solution uses C++20 standard.  
-**Libraries:**  For the last task you need to provide headers for boost::multiprecision. The version of the boost library that was used is 1.85.0.
+**OS:**  Windows.  Assumingly, the solution may also work on Linux, since it does not use any Win specific API, however it has not been tested.  
+**Tools:**  Visual Studio 2022, the version used for development is 17.13.6. The solution uses C++20 standard.  
+**Libraries:**  Boost::multiprecision library. The version of the boost library that was used for development is 1.85.0.
 
 ## How to launch
 1) Find launch.bat in the solution directory;  
