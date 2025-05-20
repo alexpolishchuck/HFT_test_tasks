@@ -59,7 +59,7 @@ Space: O(1), we only use static buffers.
 ## Prerequisites
 **OS:**  Windows.  I assume it may also work on Linux, since solution does not use any Win specific API, however I have not tested it.  
 **Tools:**  For building you require Visual Studio 2022, the version I used is 17.13.6. The solution uses C++20 standard.  
-**Libraries:**  For last task you need to provide headers for boost::multiprecision. The version of the boost library I used is 1.85.0.
+**Libraries:**  For the last task you need to provide headers for boost::multiprecision. The version of the boost library that was used is 1.85.0.
 
 ## How to launch
 1) Find launch.bat in the solution directory;  
