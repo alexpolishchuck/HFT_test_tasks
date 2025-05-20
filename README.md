@@ -11,7 +11,7 @@ Generating and writing to file one value at a time is ineffective and generating
 **Solution:**  
 First of all, application generates and writes values to the file in chunks. Such approach allows reducing RAM consuming and decreases execution time from 18 to 17 seconds.
 Next, application performance profiling showed that the most time consuming part of the program was generation of numbers using uniform distribution. 
-Therefore, In order to reduce the execution time even more, application parallelizes doubles generation by distributing work load between threads. This reduces execution time from 17 to 10 seconds.
+Therefore, In order to reduce the execution time even more, application parallelizes doubles generation by distributing work load between threads. This reduces execution time from 17 to 7 seconds.
 
 **Complexity:**  
 Time: O(n / number_of_threads), where n - number of doubles.  
