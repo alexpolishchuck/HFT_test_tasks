@@ -11,7 +11,7 @@ public:
         const std::string& file_a,
         const std::string& file_b,
         const std::string& file_out,
-        uint64_t max_memory_bytes = g_max_memory_bytes);
+        uint64_t max_memory_bytes = g_max_available_bytes);
 
 private:
     void flush_to_output_buffer(std::vector<double>& input, size_t& cursor);

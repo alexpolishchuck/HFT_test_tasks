@@ -3,7 +3,9 @@
 #include <vector>
 
 void clear_and_create_folder(const char* folder_path);
+
 void flush_chunk_to_file(
     const std::string& filename,
-    const std::vector<double>& data, 
+    const std::vector<double>& data,
+    const size_t chunk_size = 4096,
     bool truncate_file = true);

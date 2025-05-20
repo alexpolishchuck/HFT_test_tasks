@@ -12,7 +12,7 @@ void files_merger::merge_two_files(
     file_out_ = file_out;
     std::filesystem::remove(file_out_);
 
-    chunk_size_ = max_memory_bytes / 5; // two file readers + 3 vectors
+    chunk_size_ = max_memory_bytes / 6; // two file readers + 3 vectors + flush
     double_file_reader file_reader_a(file_a, chunk_size_);
     double_file_reader file_reader_b(file_b, chunk_size_);
 
@@ -104,6 +104,6 @@ void files_merger::merge_buffers()
 void files_merger::flush_output_to_file()
 {
     bool truncate = false;
-    flush_chunk_to_file(file_out_, doubles_out_, truncate);
+    flush_chunk_to_file(file_out_, doubles_out_, chunk_size_, truncate);
     doubles_out_.clear();
 }

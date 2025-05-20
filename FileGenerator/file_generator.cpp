@@ -30,8 +30,6 @@ public:
 
     void generate_random_doubles_file(size_t file_size_bytes, const std::string& filename)
     {
-        wait_for_finish();
-
         total_size_ = 0;
         file_size_bytes_ = file_size_bytes;
         output_file_.open(filename, std::ios::trunc | std::ios::binary);
@@ -92,8 +90,8 @@ private:
             double rand_double = sign * double_distribution_(generator_);
 
             std::string rand_double_str = std::format("{:.7e}", rand_double);
-            ss << rand_double_str;
-            current_batch_string_size += rand_double_str.size();
+            ss << rand_double_str << '\n';
+            current_batch_string_size += rand_double_str.size() + 1; // + 1 for '\n'
             current_batch_size++;
 
             if (current_batch_size == max_batch_size)
@@ -101,12 +99,6 @@ private:
                 std::unique_lock<std::mutex> lock(mutex_);
                 if (total_size_ >= file_size_bytes_)
                     return;
-
-                if (total_size_)
-                {
-                    output_file_ << '\n';
-                    total_size_ += 1;
-                }
 
                 output_file_ << ss.rdbuf();
                 std::stringstream().swap(ss);
@@ -118,9 +110,6 @@ private:
                 if (total_size_ >= file_size_bytes_)
                     return;
             }
-
-            ss << '\n';
-            current_batch_string_size += 1;
         }
     }
 

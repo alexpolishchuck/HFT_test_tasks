@@ -25,7 +25,7 @@ public:
         if (!input_file.is_open())
             throw std::runtime_error("file_sorter::split_file_by_sorted_chunks. Failed to open input file");
         
-        uint64_t chunk_size = g_max_memory_bytes / 2;
+        uint64_t chunk_size = g_max_available_bytes / 3;
         std::vector<double> doubles;
         doubles.reserve(chunk_size / sizeof(double));
         double_file_reader file_reader(unsorted_file_name_, chunk_size);
@@ -39,7 +39,7 @@ public:
             std::sort(doubles.begin(), doubles.end());
 
             std::string next_file_name = create_next_file_name();
-            flush_chunk_to_file(next_file_name, doubles);
+            flush_chunk_to_file(next_file_name, doubles, chunk_size);
             doubles.clear();
         }
     }
@@ -71,7 +71,7 @@ public:
             std::string file_b = create_file_name(i + 1);
             std::string file_out = create_next_file_name();
 
-            auto chunk_size = g_max_memory_bytes / 2;
+            auto chunk_size = g_max_available_bytes / 2;
             merger.merge_two_files(file_a, file_b, file_out, chunk_size);
 
             std::filesystem::remove(file_a);
